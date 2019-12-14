@@ -5,6 +5,10 @@ from colorama import Fore, Back, Style
 import sqlite3
 import base64
 
+import time
+import string
+import random
+
 import cryptography
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
@@ -187,12 +191,14 @@ class interpreter:
 
     def start(self):
         print(INFO + "Commands:")
-        print(NORMAL + " exit               Exit Program")
-        print(NORMAL + " acc                Switch Account")
-        print(NORMAL + " id <database id>   Get results based on database id")
-        print(NORMAL + " s  <term>          Get results from matches in service column")
-        print(NORMAL + " n  <term>          Get results from matches in notes column")
-        print(NORMAL + " i                  Insert new values")
+        print(NORMAL + " exit                      Exit Program")
+        print(NORMAL + " acc                       Switch Account")
+        print(NORMAL + " gen  <length default=32>  Generate password of length")
+        print(NORMAL + " gens <length default=32>  Generate password of length with symbols")
+        print(NORMAL + " id   <database id>        Get results based on database id")
+        print(NORMAL + " s    <term>               Get results from matches in service column")
+        print(NORMAL + " n    <term>               Get results from matches in notes column")
+        print(NORMAL + " i                         Insert new values")
         while True:
             print()
             inp = Input(NORMAL + "%s $~ "%self.user)
@@ -228,6 +234,26 @@ class interpreter:
 
                 self.results(self.m.cursor.fetchall())
                 continue
+
+            if inp.iscmd("gen"):
+                random.seed(time.time())
+                try:
+                    v = int(inp.get(1))
+                except (ValueError,TypeError):
+                    v = 32
+
+                out = [random.choice(string.ascii_letters + string.digits) for x in range(v)]
+                print(NORMAL + "".join(out))
+
+            if inp.iscmd("gens"):
+                random.seed(time.time())
+                try:
+                    v = int(inp.get(1))
+                except (ValueError,TypeError):
+                    v = 32
+
+                out = [random.choice(string.ascii_letters + string.digits + "!@#$%^&*()_-+=") for x in range(v)]
+                print(NORMAL + "".join(out))
 
             if inp.iscmd("i"):
                 print(INFO + "Leave blank is none:")
