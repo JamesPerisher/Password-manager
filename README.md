@@ -19,6 +19,18 @@ Download the .zip folder and extract it.
 
 4. Run ```password_manager.py```
 
+---
+## Commands
+| command | args | usage
+---  | ---  | ---
+exit |                       | Exit Program
+acc  |                       | Switch Account
+gen  | `<length default=32>` | Generate password of length
+gens | `<length default=32>` | Generate password of length with symbols
+id   | `<database id>      ` | Get results based on database id
+s    | `<term>             ` | Get results from matches in service column
+n    | `<term>             ` | Get results from matches in notes column
+i    |                       | Insert new values
 
 ---
 
